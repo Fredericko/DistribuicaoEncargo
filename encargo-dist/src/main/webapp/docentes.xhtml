@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core">
+<head>
+<title>Docentes</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+	<h1></h1>
+	<h:form>
+		<h:inputText id="nome" value="#{curso.cursoNovo.nome}"></h:inputText>
+		<h:inputText id="duracao" value="#{curso.cursoNovo.duracao}"></h:inputText>		
+		<h:commandButton value="Adicionar" action="#{curso.addCursoNovo()}"></h:commandButton>
+		<h:dataTable value="#{curso.cursos}" var="curso">
+			<h:column>
+				<f:facet name="header">Id</f:facet>
+         		#{curso.id}
+     		</h:column>
+			<h:column>
+				<f:facet name="header">Nome</f:facet>    				
+		         #{curso.nome}
+		  	</h:column>
+			<h:column>
+				<f:facet name="header">Semestres</f:facet>
+		         #{curso.duracao}
+		 	</h:column>
+		</h:dataTable>
+	</h:form>
+</body>
+</html>

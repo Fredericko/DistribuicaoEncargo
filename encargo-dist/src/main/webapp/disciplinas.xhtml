@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core">
+<head>
+<title>Disciplinas</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<h1>Disciplinas</h1>
+	
+	<h:form>
+		Nome da Disciplina <br/>
+		<h:inputText id="nome_disciplina" value="#{disciplina.disciplinaNova.nome_disciplina}"></h:inputText><br/>
+		Turno<br/>
+		<h:inputText id="turno" value="#{disciplina.disciplinaNova.turno}"></h:inputText><br/>
+		Carga Horária Semanal<br/>
+		<h:inputText id="ch_semanal" value="#{disciplina.disciplinaNova.ch_semanal}"></h:inputText><br/>
+		Carga Horária Total<br/>
+		<h:inputText id="ch_total" value="#{disciplina.disciplinaNova.ch_total}"></h:inputText><br/>
+		Ementa<br/>
+		<h:inputTextarea id="ementa" value="#{disciplina.disciplinaNova.ementa}"></h:inputTextarea>
+		<h:commandButton value="Adicionar" action="#{disciplina.addDisciplina()}"></h:commandButton>
+		<h:dataTable value="#{disciplina.disciplinas}" var="disciplina">
+			<h:column>
+				<f:facet name="header">Id</f:facet>
+         		#{disciplina.id}
+     		</h:column>
+			<h:column>
+				<f:facet name="header">Nome da Disciplina</f:facet>
+         		#{disciplina.nome_disciplina}
+     		</h:column>
+			<h:column>
+				<f:facet name="header">Turno</f:facet>    				
+		         #{disciplina.turno}
+		  	</h:column>
+			<h:column>
+				<f:facet name="header">Carga Horaria Semanal</f:facet>
+		         #{disciplina.ch_semanal}
+		 	</h:column>
+			<h:column>
+				<f:facet name="header">Carga Horaria Total</f:facet>
+		         #{disciplina.ch_total}
+		 	</h:column>
+			<h:column>
+				<f:facet name="header">Ementa</f:facet>
+		         #{disciplina.ementa}
+		 	</h:column>
+		</h:dataTable>
+	</h:form>
+
+</body>
+</html>

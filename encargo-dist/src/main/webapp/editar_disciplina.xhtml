@@ -21,34 +21,31 @@
         </h:form>
         <h:form>
             <h:outputLabel value="Nome da Disciplina" /> <br/>
-            <h:inputText id="nomeDisciplina" value="#{disciplina.disciplinaNova.nomeDisciplina}"></h:inputText><br/>
+            <h:inputText id="nome_disciplina" value="#{disciplina.disciplinaNova.nomeDisciplina}"></h:inputText><br/>
             <h:outputLabel value="Turno" /><br/>
             <h:inputText id="turno" value="#{disciplina.disciplinaNova.turno}"></h:inputText><br/>
             <h:outputLabel value="Carga Horária Semanal" /><br/>
-            <h:inputText id="chSemanal" value="#{disciplina.disciplinaNova.chSemanal}"></h:inputText><br/>
+            <h:inputText id="ch_semanal" value="#{disciplina.disciplinaNova.chSemanal}"></h:inputText><br/>
             <h:outputLabel value="Carga Horária Total" /><br/>
-            <h:inputText id="chTotal" value="#{disciplina.disciplinaNova.chTotal}"></h:inputText><br/>
+            <h:inputText id="ch_total" value="#{disciplina.disciplinaNova.chTotal}"></h:inputText><br/>
             <h:outputLabel value="Ementa" /><br/>
             <h:inputTextarea id="ementa" value="#{disciplina.disciplinaNova.ementa}"></h:inputTextarea>
             <h:commandButton value="Adicionar" action="#{disciplina.addDisciplina()}"></h:commandButton>
-            <p:dataTable value="#{disciplina.disciplinas}" var="disc">
+            <p:dataTable value="#{disciplina.disciplinas}" var="disciplina">
                 <p:column headerText="Nome da disciplina">
-                    <h:outputLabel value="#{disc.nomeDisciplina}" />
+                    <p:column headerText=" #{disciplina.nome_disciplina}" />
                 </p:column>
                 <p:column headerText="Turno">
-                    <h:outputLabel value="#{disc.turno}" />
+                    <h:outputLabel value="#{disciplina.turno}" />
                 </p:column>
                 <p:column headerText="Carga Horaria Semanal">
-                    <h:outputLabel value="#{disc.chSemanal}" />
+                    <h:outputLabel value="#{disciplina.ch_semanal}" />
                 </p:column>
                 <p:column headerText="Carga Horaria Total">
-                    <h:outputLabel value="#{disc.chTotal}" />
+                    <h:outputLabel value="#{disciplina.ch_total}" />
                 </p:column>
                 <p:column headerText="Ementa">
-                    <h:outputLabel value="#{disc.ementa}" />
-                </p:column>
-                <p:column>
-                    <h:commandButton value="Excluir" action="#{disciplina.delete(disc)}" />
+                    <h:outputLabel value="#{disciplina.ementa}" />
                 </p:column>
             </p:dataTable>
         </h:form>

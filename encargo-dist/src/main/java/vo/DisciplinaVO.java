@@ -1,13 +1,12 @@
 package vo;
 
 import java.io.Serializable;
-import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -16,58 +15,56 @@ public class DisciplinaVO implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-	private String nome_disciplina;
+	private String codigo;
+	@Column(name="nome_disciplina")
+	private String nomeDisciplina;
 	private String turno;
-	private int ch_total;
-	private int ch_semanal;
+	@Column(name="nome_total")
+	private int chTotal;
+	@Column(name="nome_semanal")
+	private int chSemanal;
 	private String ementa;
-
+	
 	public int getId() {
 		return id;
 	}
-
 	public void setId(int id) {
 		this.id = id;
 	}
-
-	public String getNome_disciplina() {
-		return nome_disciplina;
+	public String getCodigo() {
+		return codigo;
 	}
-
-	public void setNome_disciplina(String nome_disciplina) {
-		this.nome_disciplina = nome_disciplina;
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
 	}
-
+	public String getNomeDisciplina() {
+		return nomeDisciplina;
+	}
+	public void setNomeDisciplina(String nomeDisciplina) {
+		this.nomeDisciplina = nomeDisciplina;
+	}
 	public String getTurno() {
 		return turno;
 	}
-
 	public void setTurno(String turno) {
 		this.turno = turno;
 	}
-
-	public int getCh_total() {
-		return ch_total;
+	public int getChTotal() {
+		return chTotal;
 	}
-
-	public void setCh_total(int ch_total) {
-		this.ch_total = ch_total;
+	public void setChTotal(int chTotal) {
+		this.chTotal = chTotal;
 	}
-
-	public int getCh_semanal() {
-		return ch_semanal;
+	public int getChSemanal() {
+		return chSemanal;
 	}
-
-	public void setCh_semanal(int ch_semanal) {
-		this.ch_semanal = ch_semanal;
+	public void setChSemanal(int chSemanal) {
+		this.chSemanal = chSemanal;
 	}
-
 	public String getEmenta() {
 		return ementa;
 	}
-
 	public void setEmenta(String ementa) {
 		this.ementa = ementa;
 	}
-
 }

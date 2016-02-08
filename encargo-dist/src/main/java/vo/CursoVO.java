@@ -18,9 +18,9 @@ public class CursoVO implements Serializable{
 	@Id 
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
+	private String codigo;
 	private String nome;
 	private String duracao;
-
 	@ManyToMany
 	@JoinColumn(name="disciplina_id")
 	private List<DisciplinaVO> disciplinas;
@@ -29,35 +29,33 @@ public class CursoVO implements Serializable{
 		nome="";
 		duracao="";
 	}
-	
 	public int getId() {
 		return id;
 	}
-
 	public void setId(int id) {
 		this.id = id;
 	}
-	
+	public String getCodigo() {
+		return codigo;
+	}
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
+	}
 	public String getNome() {
 		return nome;
 	}
-
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-
 	public String getDuracao() {
 		return duracao;
 	}
-
 	public void setDuracao(String duracao) {
 		this.duracao = duracao;
 	}
-
 	public List<DisciplinaVO> getDisciplinas() {
 		return disciplinas;
 	}
-
 	public void setDisciplinas(List<DisciplinaVO> disciplinas) {
 		this.disciplinas = disciplinas;
 	}

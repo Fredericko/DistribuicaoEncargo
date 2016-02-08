@@ -14,43 +14,47 @@ import vo.CursoVO;
 @ManagedBean
 @SessionScoped
 public class Curso {
-	private CursoVO cursoNovo = new CursoVO();
-	private static DataModel<CursoVO> cursos;
-	
-	public static void update(CursoVO vo) {
-		CursoDAO.getInstance().save(vo);
-	}
 
-	public void delete(CursoVO vo) {
-		CursoDAO.getInstance().delete(vo);
-	}
+    private CursoVO cursoNovo = new CursoVO();
+    private static DataModel<CursoVO> cursos;
 
-	public static List<CursoVO> getAll(){
-		return CursoDAO.getInstance().getAll();
-	}
+    public static void update(CursoVO vo) {
+        CursoDAO.getInstance().save(vo);
+    }
 
-	public DataModel<CursoVO> getCursos() {
-		ArrayList<CursoVO> cursoArrayList =  new ArrayList<CursoVO>(getAll()); 
-		CursoVO[] cursoArray = new CursoVO[cursoArrayList.size()];
-		int i=0;
-		for(CursoVO cur: cursoArrayList){
-			cursoArray[i] = cur;
-			i++;
-		}
-		cursos = new ArrayDataModel<CursoVO>(cursoArray);
-		return cursos;
-	}
-	
-	public void addCursoNovo(){
-		update(cursoNovo);
-		cursoNovo = new CursoVO();
-	}
+    public void delete(CursoVO vo) {
+        CursoDAO.getInstance().delete(vo);
+    }
 
-	public CursoVO getCursoNovo() {
-		return cursoNovo;
-	}
+    public static List<CursoVO> getAll() {
+        return CursoDAO.getInstance().getAll();
+    }
 
-	public void setCursoNovo(CursoVO cursoNovo) {
-		this.cursoNovo = cursoNovo;
-	}
+    public DataModel<CursoVO> getCursos() {
+        ArrayList<CursoVO> cursoArrayList = new ArrayList<CursoVO>(getAll());
+        CursoVO[] cursoArray = new CursoVO[cursoArrayList.size()];
+        int i = 0;
+        for (CursoVO cur : cursoArrayList) {
+            cursoArray[i] = cur;
+            i++;
+        }
+        cursos = new ArrayDataModel<CursoVO>(cursoArray);
+        return cursos;
+    }
+
+    public void addCursoNovo() {
+        if (!cursoNovo.getNome().isEmpty()||!cursoNovo.getDuracao().isEmpty()) {
+            update(cursoNovo);
+            cursoNovo = new CursoVO();
+        }
+    }
+
+    public CursoVO getCursoNovo() {
+        return cursoNovo;
+    }
+
+    public void setCursoNovo(CursoVO cursoNovo) {
+        this.cursoNovo = cursoNovo;
+    }
+
 }

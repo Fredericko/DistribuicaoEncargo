@@ -1,54 +1,69 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core">
-<head>
-<title>Curso</title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-</head>
-<body>
-	<h1></h1>
-	<h:form>
-		<h:inputText id="nome" value="#{curso.cursoNovo.nome}"></h:inputText>
-		<h:inputText id="duracao" value="#{curso.cursoNovo.duracao}"></h:inputText>		
-		<h:commandButton value="Adicionar" action="#{curso.addCursoNovo()}"></h:commandButton>
-		<h:dataTable value="#{curso.cursos}" var="curso">
-			<h:column>
-				<f:facet name="header">Id</f:facet>
-         		#{curso.id}
-     		</h:column>
-			<h:column>
-				<f:facet name="header">Nome</f:facet>    				
-		         #{curso.nome}
-		  	</h:column>
-			<h:column>
-				<f:facet name="header">Semestres</f:facet>
-		         #{curso.duracao}
-		 	</h:column>
-		 	<h:column>
-		 	<f:facet name="header">Disciplinas</f:facet>
-				<h:dataTable value="#{curso.disciplinas}" var="disciplina">
-					<h:column>
-						<f:facet name="header">Id</f:facet>
-		         		#{disciplina.id}
-		     		</h:column>
-					<h:column>
-						<f:facet name="header">Nome</f:facet>    				
-				         #{disciplina.nome_disciplina}
-				  	</h:column>
-					<h:column>
-						<f:facet name="header">Turno</f:facet>
-				         #{disciplina.turno}
-				 	</h:column>
-					<h:column>
-						<f:facet name="header">Carga Horária</f:facet>
-				         #{disciplina.ch_total}
-				 	</h:column>
-				</h:dataTable>
-			</h:column>
-		</h:dataTable>
-	</h:form>
-	
-</body>
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Curso</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    </h:head>
+    <h:body>
+        <h:form>
+            <p:layout fullPage="true">
+                <p:layoutUnit position="north">
+                    <p:growl id="messages"/>
+                    <p:menubar>
+                        <f:facet name="options">
+                            <h:outputLabel value="" />
+                            <p:inputText style="margin-right:10px" placeholder="Search"/>
+                            <p:commandButton type="button" value="Sair" action="#{login.deslogar()}" icon="ui-icon-extlink" />
+                        </f:facet>
+                    </p:menubar>
+                </p:layoutUnit>
+                <p:layoutUnit position="west">
+                    <p:panelGrid />
+                    <h:outputText id="codigoNovoLabel" value="Código" /><br />
+                    <h:inputText id="codigoNovo" value="#{curso.cursoNovo.codigo}"></h:inputText>	<br />	
+                    <h:outputText id="nomeNovoLabel" value="Nome" /><br />
+                    <h:inputText id="nomeNovo" value="#{curso.cursoNovo.nome}"></h:inputText><br />
+                    <h:outputText id="duracaoNovoLabel" value="Duração" /><br />
+                    <h:inputText id="duracaoNovo" value="#{curso.cursoNovo.duracao}"></h:inputText><br />
+                    <h:outputLabel value="Disciplinas" /><br />
+                    <p:selectManyMenu id="basic" value="#{curso.cursoNovo.disciplinas}" showCheckbox="true">
+                        <f:selectItems value="#{disciplina.all}" var="d" itemLabel="#{d.nomeDisciplina}" itemValue="#{d}" />
+                    </p:selectManyMenu>
+                    <h:commandButton value="Adicionar" action="#{curso.addCursoNovo()}"></h:commandButton>
+                </p:layoutUnit>
+                <p:layoutUnit position="center" >
+                    <p:dataTable value="#{curso.cursos}" var="cur">
+                        <p:column headerText="Id">
+                            <h:outputLabel value="#{cur.id}" />
+                        </p:column>
+                        <p:column headerText="Nome">
+                            <h:outputLabel value="#{cur.nome}" />
+                        </p:column>
+                        <p:column headerText="Semestres">
+                            <h:outputLabel value="#{cur.duracao}" />
+                        </p:column>
+                        <p:column headerText="Disciplinas">
+                            <p:dataTable value="#{cur.disciplinas}" var="disc">
+                                <p:column headerText="Código">
+                                    <h:outputLabel value="#{disc.codigo}" />
+                                </p:column>
+                                <p:column headerText="Nome">
+                                    <h:outputLabel value="#{disc.nome}" />
+                                </p:column>
+                            </p:dataTable>
+                        </p:column>
+                        <p:column>
+                            <h:commandButton action="#" value="Editar" />
+                            <h:commandButton action="#{curso.delete(cur)}" value="Excluir" />
+                        </p:column>
+                    </p:dataTable>
+                </p:layoutUnit>
+            </p:layout>
+        </h:form>
+
+    </h:body>
 </html>

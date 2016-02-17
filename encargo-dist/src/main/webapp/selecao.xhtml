@@ -9,7 +9,7 @@
 	<h:head>
 		<f:facet name="first">
 			<meta content='text/html; charset=UTF-8' http-equiv="Content-Type" />
-			<title>Docente</title>
+			<title>Seleção</title>
 		</f:facet>
 	</h:head>
 	<h:body>
@@ -23,38 +23,9 @@
 			</p:menubar>
 		</h:form>
 		<p:layout style="min-width:400px;min-height:200px;">
-			<p:layoutUnit position="west" size="500">
+			<p:layoutUnit position="west" size="400">
 				<h:form>
-					<h:outputLabel value="Nome" />
-					<br />
-					<h:inputText id="nome" value="#{docente.docenteNovo.nome}"></h:inputText>
-					<br />
-					<h:outputLabel value="Sobrenome" />
-					<br />
-					<h:inputText id="sobrenome"
-						value="#{docente.docenteNovo.sobrenome}"></h:inputText>
-					<br />
-					<h:outputLabel value="Regime do Trabalho" />
-					<br />
-					<p:spinner id="regime_trabalho"
-						value="#{docente.docenteNovo.regimeTrabalho}"></p:spinner>
-					<br />
-					<h:outputLabel value="Natureza do Contrato" />
-					<br />
-					<h:inputText id="contrato_natureza"
-						value="#{docente.docenteNovo.contratoNatureza}"></h:inputText>
-					<br />
-					<h:outputLabel value="Data de Encerramento do contrato" />
-					<br />
-					<p:calendar pattern="dd/MM/yyyy"
-						value="#{docente.docenteNovo.contratoEncerramento}" />
-					<br />
-					<h:outputLabel value="Disciplinas" />
-					<br />
-					<p:pickList value="#{docente.model}" var="di"
-						itemLabel="#{di.nomeDisciplina}" itemValue="#{di}"
-						converter="PickListConverter" />
-					<h:commandButton value="Adicionar" action="#{docente.addDocente()}"></h:commandButton>
+					<h:commandButton value="Seleciona" action="#{docente.selecionar()}"></h:commandButton>
 				</h:form>
 			</p:layoutUnit>
 			<p:layoutUnit position="center">
@@ -100,8 +71,8 @@
 									<h:outputLabel value="#{doc.contratoEncerramento}" />
 								</f:facet>
 								<f:facet name="input">
-									<p:calendar pattern="dd/MM/yyyy"
-						value="#{docente.docenteNovo.contratoEncerramento}" />
+									<p:inputText value="#{doc.contratoEncerramento}"
+										style="width:100%" />
 								</f:facet>
 							</p:cellEditor>
 						</p:column>

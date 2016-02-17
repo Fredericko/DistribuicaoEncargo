@@ -26,7 +26,7 @@ public class Disciplina {
 		DisciplinaDAO.getInstance().delete(vo);
 	}
 	
-	public List<DisciplinaVO> getAll(){
+	public static List<DisciplinaVO> getAll(){
 		return DisciplinaDAO.getInstance().getAll();
 	}
 	

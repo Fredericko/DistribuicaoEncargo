@@ -8,33 +8,48 @@ import org.hibernate.Transaction;
 import util.HibernateUtil;
 
 public class DAO<VO> {
+
 	private Class classe;
-        private Session s;
-        private Transaction t;
+	private Session s;
+	private Transaction t;
+
 	public DAO(Class classe) {
-                s = HibernateUtil.getSession().openSession();
+		s = HibernateUtil.getSession().openSession();
 		this.classe = classe;
+	}
+
+	public Session getSession() {
+		return s;
 	}
 
 	public void save(VO vo) {
 		t = s.beginTransaction();
-		s.merge(vo);
+		s.save(vo);
 		t.commit();
 		s.clear();
 	}
-	
-        public void save(List<VO> listaVo) {
+
+	public void save(List<VO> listaVo) {
 		t = s.beginTransaction();
-		s.merge(listaVo);
+		for (VO vo : listaVo) {
+			s.merge(vo);
+		}
 		t.commit();
 		s.clear();
 	}
-        
-        
 
 	public void delete(VO vo) {
 		t = s.beginTransaction();
 		s.delete(vo);
+		t.commit();
+		s.clear();
+	}
+
+	public void delete(List<VO> listaVo) {
+		t = s.beginTransaction();
+		for (VO vo : listaVo) {
+			s.delete(vo);
+		}
 		t.commit();
 		s.clear();
 	}

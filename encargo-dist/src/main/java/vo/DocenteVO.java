@@ -1,14 +1,16 @@
 package vo;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
-import java.util.UUID;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -16,10 +18,11 @@ import javax.persistence.Transient;
 
 @Entity
 @Table(name = "docente")
-public class DocenteVO implements Serializable {
+public class DocenteVO {
 
 	@Id
-	private String id;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int id;
 	private String nome;
 	private String sobrenome;
 	private String senha;
@@ -29,10 +32,10 @@ public class DocenteVO implements Serializable {
 	private String contratoNatureza;
 	@Column(name = "contrato_encerramento")
 	private Date contratoEncerramento;
-	@OneToMany(mappedBy = "primaryKey.docente", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<DocenteDisciplinaInteresseVO> docente_disciplina_interesse = new ArrayList<DocenteDisciplinaInteresseVO>();
-	@OneToMany(mappedBy = "primaryKey.docente", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<DocenteDisciplinaMinistradaVO> docente_disciplina_ministrada = new ArrayList<DocenteDisciplinaMinistradaVO>();
+	@OneToMany(mappedBy = "docente", cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<DocenteDisciplinaInteresseVO> docente_disciplina_interesse = new HashSet<DocenteDisciplinaInteresseVO>();
+	@OneToMany(mappedBy = "docente", cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<DocenteDisciplinaMinistradaVO> docente_disciplina_ministrada = new HashSet<DocenteDisciplinaMinistradaVO>();
 	@Transient
 	private int contemplacao;
 	@Transient
@@ -42,15 +45,11 @@ public class DocenteVO implements Serializable {
 	@Transient
 	private List<DisciplinaVO> disciplinasMinistradas = new ArrayList<DisciplinaVO>();
 
-	public DocenteVO() {
-		setId(UUID.randomUUID().toString());
-	}
-
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -110,28 +109,20 @@ public class DocenteVO implements Serializable {
 		this.contemplacao = contemplacao;
 	}
 
-	public List<DocenteDisciplinaInteresseVO> getDocenteDisciplinaInteresse() {
+	public Set<DocenteDisciplinaInteresseVO> getDocenteDisciplinasInteresse() {
 		return docente_disciplina_interesse;
 	}
 
-	public void setDocenteDisciplinaInteresse(List<DocenteDisciplinaInteresseVO> docente_disciplina_interesse) {
+	public void setDocenteDisciplinaInteresse(Set<DocenteDisciplinaInteresseVO> docente_disciplina_interesse) {
 		this.docente_disciplina_interesse = docente_disciplina_interesse;
 	}
 
-	public List<DocenteDisciplinaMinistradaVO> getDocenteDisciplinaMinistrada() {
+	public Set<DocenteDisciplinaMinistradaVO> getDocenteDisciplinasMinistradas() {
 		return docente_disciplina_ministrada;
 	}
 
-	public void setDocenteDisciplinaMinistrada(List<DocenteDisciplinaMinistradaVO> docente_disciplina_ministrada) {
+	public void setDocenteDisciplinaMinistrada(Set<DocenteDisciplinaMinistradaVO> docente_disciplina_ministrada) {
 		this.docente_disciplina_ministrada = docente_disciplina_ministrada;
-	}
-
-	public List<DocenteDisciplinaInteresseVO> getDocenteDisciplinasInteresse() {
-		return docente_disciplina_interesse;
-	}
-
-	public List<DocenteDisciplinaMinistradaVO> getDocenteDisciplinasMinistradas() {
-		return docente_disciplina_ministrada;
 	}
 
 	public List<DisciplinaVO> getDisciplinasInteresse() {
@@ -139,14 +130,16 @@ public class DocenteVO implements Serializable {
 		for (DocenteDisciplinaInteresseVO disc : docente_disciplina_interesse) {
 			disciplinasInteresse.add(disc.getDisciplina());
 		}
+		ordenarInteresse(docente_disciplina_interesse);
 		return disciplinasInteresse;
 	}
 
-	public DisciplinaVO getDisciplinasInteresse(int i) {
+	public DisciplinaVO getDisciplinaInteresse(int i) {
 		disciplinasInteresse.clear();
 		for (DocenteDisciplinaInteresseVO disc : docente_disciplina_interesse) {
 			disciplinasInteresse.add(disc.getDisciplina());
 		}
+		ordenarInteresse(docente_disciplina_interesse);
 		return disciplinasInteresse.get(i);
 	}
 
@@ -155,18 +148,20 @@ public class DocenteVO implements Serializable {
 		docente_disciplina_interesse.clear();
 		int i = 0;
 		for (DisciplinaVO disc : this.disciplinasInteresse) {
-			docente_disciplina_interesse.add(new DocenteDisciplinaInteresseVO());
-			docente_disciplina_interesse.get(i).setOrdem(i);
-			docente_disciplina_interesse.get(i).setDocente(this);
-			docente_disciplina_interesse.get(i).setDisciplina(disc);
+			DocenteDisciplinaInteresseVO docDisc = new DocenteDisciplinaInteresseVO();
+			docDisc.setOrdem(i);
+			docDisc.setDocente(this);
+			docDisc.setDisciplina(disc);
+			docente_disciplina_interesse.add(docDisc);
 			i++;
 		}
 	}
 
 	public List<DisciplinaVO> getDisciplinasMinistradas() {
-		disciplinasMinistradas.clear();
-		for (DocenteDisciplinaMinistradaVO disc : docente_disciplina_ministrada) {
-			disciplinasMinistradas.add(disc.getDisciplina());
+		if (disciplinasMinistradas.isEmpty()) {
+			for (DocenteDisciplinaMinistradaVO disc : docente_disciplina_ministrada) {
+				disciplinasMinistradas.add(disc.getDisciplina());
+			}
 		}
 		return disciplinasMinistradas;
 	}
@@ -176,25 +171,24 @@ public class DocenteVO implements Serializable {
 		docente_disciplina_ministrada.clear();
 		int i = 0;
 		for (DisciplinaVO disc : this.disciplinasMinistradas) {
-			docente_disciplina_ministrada.add(new DocenteDisciplinaMinistradaVO());
-			docente_disciplina_ministrada.get(i).setOrdem(i);
-			docente_disciplina_ministrada.get(i).setDocente(this);
-			docente_disciplina_ministrada.get(i).setDisciplina(disc);
+			DocenteDisciplinaMinistradaVO docDisc = new DocenteDisciplinaMinistradaVO();
+			docDisc.setOrdem(i);
+			docDisc.setDocente(this);
+			docDisc.setDisciplina(disc);
+			docente_disciplina_ministrada.add(docDisc);
 			i++;
 		}
 	}
 
 	public void toDocenteDisciplinasMinistrada() {
-		docente_disciplina_ministrada.clear();
 		DocenteDisciplinaMinistradaVO docDiscVO;
-		int ordem = 0;
 		for (DisciplinaVO disciplinaVO : disciplinasMinistradas) {
-			docDiscVO = new DocenteDisciplinaMinistradaVO();
-			docDiscVO.setDocente(this);
-			docDiscVO.setDisciplina(disciplinaVO);
-			docDiscVO.setOrdem(ordem);
-			docente_disciplina_ministrada.add(docDiscVO);
-			ordem++;
+			if (!docente_disciplina_interesse.contains(disciplinaVO)) {
+				docDiscVO = new DocenteDisciplinaMinistradaVO();
+				docDiscVO.setDocente(this);
+				docDiscVO.setDisciplina(disciplinaVO);
+				docente_disciplina_ministrada.add(docDiscVO);
+			}
 		}
 	}
 
@@ -204,5 +198,11 @@ public class DocenteVO implements Serializable {
 			horasMinistradas += disc.getChSemanal();
 		}
 		return horasMinistradas;
+	}
+
+	private void ordenarInteresse(Set<DocenteDisciplinaInteresseVO> docente_disciplina_interesse) {
+		for (DocenteDisciplinaInteresseVO docDiscInt : docente_disciplina_interesse) {
+			disciplinasInteresse.set(docDiscInt.getOrdem(), docDiscInt.getDisciplina());
+		}
 	}
 }

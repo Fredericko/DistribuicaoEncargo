@@ -1,4 +1,4 @@
-package negocio;
+package controle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +9,7 @@ import javax.faces.model.ArrayDataModel;
 import javax.faces.model.DataModel;
 
 import dao.DisciplinaDAO;
+import util.PickListDisciplinaArray;
 import vo.DisciplinaVO;
 
 @ManagedBean
@@ -20,10 +21,12 @@ public class Disciplina {
 	
 	public void update(DisciplinaVO vo) {
 		DisciplinaDAO.getInstance().save(vo);
+		PickListDisciplinaArray.setDisciplina();
 	}
 
 	public void delete(DisciplinaVO vo) {
 		DisciplinaDAO.getInstance().delete(vo);
+		PickListDisciplinaArray.setDisciplina();
 	}
 	
 	public static List<DisciplinaVO> getAll(){

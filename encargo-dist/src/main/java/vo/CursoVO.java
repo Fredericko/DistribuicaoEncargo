@@ -1,11 +1,11 @@
 package vo;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
@@ -13,10 +13,11 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "curso")
-public class CursoVO implements Serializable {
+public class CursoVO  {
 
 	@Id
-	private String id;
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private int id;
 	private String codigo;
 	private String nome;
 	private String duracao;
@@ -25,26 +26,18 @@ public class CursoVO implements Serializable {
 	private List<DisciplinaVO> disciplinas;
 
 	public CursoVO() {
-		setId(UUID.randomUUID().toString());
 		nome = "";
 		codigo = "";
 		duracao = "";
 		disciplinas = new ArrayList<DisciplinaVO>();
 	}
 
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
-	}
-
-	public void clear() {
-		nome = "";
-		duracao = "";
-		codigo = "";
-		disciplinas.clear();
 	}
 
 	public String getCodigo() {
@@ -79,4 +72,10 @@ public class CursoVO implements Serializable {
 		this.disciplinas = disciplinas;
 	}
 
+	public void clear() {
+		nome = "";
+		duracao = "";
+		codigo = "";
+		disciplinas.clear();
+	}
 }

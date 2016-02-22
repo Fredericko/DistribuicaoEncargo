@@ -1,17 +1,36 @@
 package vo;
 
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "docente_disciplina_interesse")
+@Table(name = "docente_disciplina_interesse", uniqueConstraints = @UniqueConstraint(columnNames = { "docente_id", "disciplina_id" }) )
 public class DocenteDisciplinaInteresseVO {
-	@EmbeddedId
-	private DocenteDisciplinaID primaryKey = new DocenteDisciplinaID();
-
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private int id;
+	@ManyToOne
+	@JoinColumn(name = "docente_id")
+	private DocenteVO docente;
+	@ManyToOne
+	@JoinColumn(name = "disciplina_id")
+	private DisciplinaVO disciplina;
 	private int ordem;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	public int getOrdem() {
 		return ordem;
@@ -21,29 +40,21 @@ public class DocenteDisciplinaInteresseVO {
 		this.ordem = ordem;
 	}
 
-	public DocenteDisciplinaID getPrimaryKey() {
-		return primaryKey;
-	}
-
-	public void setPrimaryKey(DocenteDisciplinaID primaryKey) {
-		this.primaryKey = primaryKey;
-	}
-
-	@Transient
 	public DocenteVO getDocente() {
-		return getPrimaryKey().getDocente();
+		return docente;
 	}
 
 	public void setDocente(DocenteVO docente) {
-		getPrimaryKey().setDocente(docente);
+		this.docente = docente;
 	}
 
-	@Transient
 	public DisciplinaVO getDisciplina() {
-		return getPrimaryKey().getDisciplina();
+		return disciplina;
 	}
 
 	public void setDisciplina(DisciplinaVO disciplina) {
-		getPrimaryKey().setDisciplina(disciplina);
+		this.disciplina = disciplina;
 	}
+	
+
 }

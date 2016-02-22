@@ -1,6 +1,8 @@
 package dao;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.Query;
 
@@ -19,17 +21,37 @@ public class DisciplinaInteresseDAO extends DAO<DocenteDisciplinaInteresseVO> {
 		return dao;
 	}
 
-	public void inserirDisciplinaInteresse(List<DocenteDisciplinaInteresseVO> disciplinaInteresse){
+	public void inserirDisciplinaInteresse(List<DocenteDisciplinaInteresseVO> disciplinaInteresse) {
 		String hql = "INSERT INTO docente_disciplina_interesse(disciplina_id, docente_id, ordem)VALUES ";
 		for (DocenteDisciplinaInteresseVO discInteresse : disciplinaInteresse) {
-			if(disciplinaInteresse.get(disciplinaInteresse.size()-1) != discInteresse){
-				hql += "('"+discInteresse.getDisciplina().getId()+"','"+discInteresse.getDocente().getId()+"',"+discInteresse.getOrdem()+"),";
-			}else{
-				hql += "('"+discInteresse.getDisciplina().getId()+"','"+discInteresse.getDocente().getId()+"',"+discInteresse.getOrdem()+")";
+			if (disciplinaInteresse.get(disciplinaInteresse.size() - 1) != discInteresse) {
+				hql += "('" + discInteresse.getDisciplina().getId() + "','" + discInteresse.getDocente().getId() + "',"
+						+ discInteresse.getOrdem() + "),";
+			} else {
+				hql += "('" + discInteresse.getDisciplina().getId() + "','" + discInteresse.getDocente().getId() + "',"
+						+ discInteresse.getOrdem() + ")";
 			}
 		}
 		Query query = getSession().createSQLQuery(hql);
 		query.executeUpdate();
 	}
+
+	public void save(Set<DocenteDisciplinaInteresseVO> docenteDisciplinasInteresse) {
+		for (DocenteDisciplinaInteresseVO disc : docenteDisciplinasInteresse) {
+			save(disc);
+		}
+	}
+
+	public void saveOrUpdate(Set<DocenteDisciplinaInteresseVO> docenteDisciplinasInteresse) {
+		for (DocenteDisciplinaInteresseVO disc : docenteDisciplinasInteresse) {
+			if(getById(disc.getId()) == null){
+				save(disc);
+			}else{
+				update(disc);
+			}
+		}
+	}
+	
+	
 	
 }

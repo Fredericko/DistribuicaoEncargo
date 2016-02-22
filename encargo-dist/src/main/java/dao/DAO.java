@@ -9,11 +9,11 @@ import util.HibernateUtil;
 
 public class DAO<VO> {
 
-	private Class classe;
+	private Class<VO> classe;
 	private Session s;
 	private Transaction t;
 
-	public DAO(Class classe) {
+	public DAO(Class<VO> classe) {
 		s = HibernateUtil.getSession().openSession();
 		this.classe = classe;
 	}
@@ -21,10 +21,24 @@ public class DAO<VO> {
 	public Session getSession() {
 		return s;
 	}
+	
+	public void update(VO vo){
+		t = s.beginTransaction();
+		s.update(vo);
+		t.commit();
+		s.clear();
+	}
 
 	public void save(VO vo) {
 		t = s.beginTransaction();
-		s.save(vo);
+		s.merge(vo);
+		t.commit();
+		s.clear();
+	}
+
+	public void saveOrUpdate(VO vo) {
+		t = s.beginTransaction();
+		s.saveOrUpdate(vo);
 		t.commit();
 		s.clear();
 	}
@@ -32,7 +46,7 @@ public class DAO<VO> {
 	public void save(List<VO> listaVo) {
 		t = s.beginTransaction();
 		for (VO vo : listaVo) {
-			s.merge(vo);
+			s.saveOrUpdate(vo);
 		}
 		t.commit();
 		s.clear();
@@ -54,12 +68,12 @@ public class DAO<VO> {
 		s.clear();
 	}
 
-	public VO getById(long id) {
-		return (VO) s.get(classe, id);
+	public VO getById(int id) {
+		return s.get(classe, id);
 	}
-
+	
 	public List<VO> getAll() {
-		return s.createCriteria(classe).list();
+		return (List<VO>) s.createCriteria(classe).list();
 	}
 
 }

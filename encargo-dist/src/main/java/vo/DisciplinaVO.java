@@ -1,12 +1,13 @@
 package vo;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -15,35 +16,32 @@ import org.hibernate.annotations.OrderBy;
 
 @Entity
 @Table(name = "disciplina")
-public class DisciplinaVO implements Serializable {
+public class DisciplinaVO {
 
 	@Id
-	private String id;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int id;
 	private String codigo;
 	@Column(name = "nome_disciplina")
 	private String nomeDisciplina;
 	private String turno;
-	@Column(name = "nome_total")
+	@Column(name = "ch_total")
 	private int chTotal;
-	@Column(name = "nome_semanal")
+	@Column(name = "ch_semanal")
 	private int chSemanal;
 	private String ementa;
-	@OneToMany(mappedBy = "disciplina", orphanRemoval=true)
+	@OneToMany(mappedBy = "disciplina", cascade = CascadeType.ALL, orphanRemoval = true)
 	@OrderBy(clause = "ordem")
-	private List<DocenteDisciplinaInteresseVO> docente_disciplina_interesse = new ArrayList<DocenteDisciplinaInteresseVO>();
-	@OneToMany(mappedBy = "disciplina", orphanRemoval=true)
+	private Set<DocenteDisciplinaInteresseVO> docenteDisciplinaInteresse = new HashSet<DocenteDisciplinaInteresseVO>();
+	@OneToMany(mappedBy = "disciplina", cascade = CascadeType.ALL, orphanRemoval = true)
 	@OrderBy(clause = "ordem")
-	private List<DocenteDisciplinaMinistradaVO> docente_disciplina_ministrada = new ArrayList<DocenteDisciplinaMinistradaVO>();
+	private Set<DocenteDisciplinaMinistradaVO> docenteDisciplinaMinistrada = new HashSet<DocenteDisciplinaMinistradaVO>();
 
-	public DisciplinaVO() {
-		setId(UUID.randomUUID().toString());
-	}
-
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -94,4 +92,14 @@ public class DisciplinaVO implements Serializable {
 	public void setEmenta(String ementa) {
 		this.ementa = ementa;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		DisciplinaVO other = (DisciplinaVO) obj;
+		if (this.id == other.id)
+			return true;
+		else
+			return false;
+	}
+
 }

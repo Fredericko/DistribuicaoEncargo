@@ -1,4 +1,4 @@
-package negocio;
+package controle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,10 +10,10 @@ import javax.faces.model.ArrayDataModel;
 
 import org.primefaces.model.DualListModel;
 
-import dao.DisciplinaInteresseDAO;
 import dao.DisciplinaMinistradaDAO;
 import dao.DocenteDAO;
-import util.Selecao;
+import negocio.Selecao;
+import util.PickListDisciplinaArray;
 import vo.DisciplinaVO;
 import vo.DocenteVO;
 
@@ -24,23 +24,25 @@ public class Docente {
 	private DocenteVO docenteNovo = new DocenteVO();
 	private ArrayDataModel<DocenteVO> docentes;
 	private DualListModel<DisciplinaVO> model;
-	private ArrayList<DisciplinaVO> disciplinaArrayList;
+	//private ArrayList<DisciplinaVO> disciplinaArrayList;
 	private ArrayList<DocenteVO> docenteArrayList;
 
 	@PostConstruct
 	public void init() {
-		disciplinaArrayList = (ArrayList<DisciplinaVO>) Disciplina.getAll();
-		setModel(new DualListModel<DisciplinaVO>(disciplinaArrayList, docenteNovo.getDisciplinasInteresse()));
+		PickListDisciplinaArray.setDisciplina();
+		setModel(new DualListModel<DisciplinaVO>(PickListDisciplinaArray.getDisciplinas(), docenteNovo.getDisciplinasInteresse()));
 	}
 
-	public static void update(DocenteVO vo) {
-		DocenteDAO.getInstance().save(vo);
-		DisciplinaInteresseDAO.getInstance().inserirDisciplinaInteresse(vo.getDocenteDisciplinasInteresse());
+	public static void saveOrUpdate(DocenteVO vo) {
+		DocenteDAO.getInstance().saveOrUpdate(vo);
+		//DisciplinaInteresseDAO.getInstance().saveOrUpdate((HashSet<DocenteDisciplinaInteresseVO>)vo.getDocenteDisciplinasInteresse());
 	}
 
-	public static void update(ArrayList<DocenteVO> docentes) {
+	public static void saveOrUpdate(ArrayList<DocenteVO> docentes) {
 		for (DocenteVO vo : docentes) {
-			DisciplinaMinistradaDAO.getInstance().inserirDisciplinaMinistradas(vo.getDocenteDisciplinaMinistrada());
+			DocenteDAO.getInstance().save(vo);
+			vo.toDocenteDisciplinasMinistrada();
+			DisciplinaMinistradaDAO.getInstance().saveOrUpdate(vo.getDocenteDisciplinasMinistradas());
 		}
 	}
 
@@ -54,7 +56,7 @@ public class Docente {
 
 	public void addDocente() {
 		docenteNovo.setDisciplinasInteresse(getModel().getTarget());
-		update(docenteNovo);
+		saveOrUpdate(docenteNovo);
 		docenteNovo = new DocenteVO();
 	}
 
@@ -99,18 +101,18 @@ public class Docente {
 	public void setDocentesModel(ArrayDataModel<DocenteVO> docentesModel) {
 		this.docentesModel = docentesModel;
 	}
-
-	public void selecionar() {
-		Selecao sel = new Selecao();
-		sel.seleciona(docenteArrayList);
-	}
-
+	
 	public DualListModel<DisciplinaVO> getModel() {
 		return model;
 	}
-
+	
 	public void setModel(DualListModel<DisciplinaVO> model) {
 		this.model = model;
 	}
 
+	public void selecionar() {
+		Selecao sel = new Selecao();
+		sel.selecionarDisciplinas(docenteArrayList);
+		saveOrUpdate(docenteArrayList);
+	}
 }

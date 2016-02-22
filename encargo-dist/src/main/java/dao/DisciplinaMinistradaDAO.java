@@ -1,6 +1,7 @@
 package dao;
 
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.Query;
 
@@ -9,7 +10,7 @@ import vo.DocenteDisciplinaMinistradaVO;
 public class DisciplinaMinistradaDAO extends DAO<DocenteDisciplinaMinistradaVO> {
 	public static DisciplinaMinistradaDAO dao;
 
-	public DisciplinaMinistradaDAO(Class classe) {
+	public DisciplinaMinistradaDAO(Class<DocenteDisciplinaMinistradaVO> classe) {
 		super(classe);
 	}
 
@@ -30,5 +31,20 @@ public class DisciplinaMinistradaDAO extends DAO<DocenteDisciplinaMinistradaVO> 
 		}
 		Query query = getSession().createSQLQuery(hql);
 		query.executeUpdate();
+	}
+
+	public Object getDisciplinaMinistrada(DocenteDisciplinaMinistradaVO disciplinaMinistrada) {
+		String hql = "SELECT * FROM docente_disciplina_ministrada WHERE docente_id = :docenteId AND disciplina_id = :disciplinaId";
+		return getSession().createSQLQuery(hql).setLong("docenteId", disciplinaMinistrada.getDocente().getId())
+		.setLong("disciplinaId", disciplinaMinistrada.getDisciplina().getId())
+        .uniqueResult();
+	}
+
+	public void saveOrUpdate(Set<DocenteDisciplinaMinistradaVO> docenteDisciplinasMinistradas) {
+		for(DocenteDisciplinaMinistradaVO disc : docenteDisciplinasMinistradas){
+			if(getDisciplinaMinistrada(disc) == null){
+				save(disc);
+			}
+		}
 	}
 }

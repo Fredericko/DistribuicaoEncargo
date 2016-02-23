@@ -14,7 +14,7 @@ import javax.persistence.UniqueConstraint;
 public class DocenteDisciplinaInteresseVO {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	@ManyToOne
 	@JoinColumn(name = "docente_id")

@@ -109,11 +109,7 @@ public class Selecao {
 		listaSelecao.removeAll(listaRemoverSelecao);
 		listaRemoverSelecao.clear();
 		if (igual > 0) {
-			Random rand = new Random(0);
-			for (int i = 0; i < 100; i++) {
-				int num = rand.nextInt(listaSelecao.size());
-				System.out.println(num);
-			}
+			Random rand = new Random();
 			int num = rand.nextInt(listaSelecao.size());
 			if (!listaSelecao.get(0).getDisciplinasMinistradas().contains(disc)) {
 				listaSelecao.get(num).getDisciplinasMinistradas().add(disc);

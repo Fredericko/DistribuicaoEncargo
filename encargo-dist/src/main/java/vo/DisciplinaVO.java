@@ -19,7 +19,7 @@ import org.hibernate.annotations.OrderBy;
 public class DisciplinaVO {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String codigo;
 	@Column(name = "nome_disciplina")

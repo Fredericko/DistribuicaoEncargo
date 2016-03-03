@@ -7,10 +7,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "docente_disciplina_ministrada", uniqueConstraints = @UniqueConstraint(columnNames = { "docente_id", "disciplina_id" }) )
+@Table(name = "docente_disciplina_ministrada")
 public class DocenteDisciplinaMinistradaVO {
 
 	@Id
@@ -22,22 +21,23 @@ public class DocenteDisciplinaMinistradaVO {
 	@ManyToOne
 	@JoinColumn(name = "disciplina_id")
 	private DisciplinaVO disciplina;
-	private int ordem;
-
+	private int ano;
+	private int semestre;
+	
+	public DocenteDisciplinaMinistradaVO() {
+	}
+	
+	public DocenteDisciplinaMinistradaVO(DocenteVO docente, DisciplinaVO disciplina) {
+		this.docente = docente;
+		this.disciplina = disciplina;
+	}
+	
 	public int getId() {
 		return id;
 	}
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public int getOrdem() {
-		return ordem;
-	}
-
-	public void setOrdem(int ordem) {
-		this.ordem = ordem;
 	}
 
 	public DocenteVO getDocente() {
@@ -55,14 +55,26 @@ public class DocenteDisciplinaMinistradaVO {
 	public void setDisciplina(DisciplinaVO disciplina) {
 		this.disciplina = disciplina;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
-		DocenteDisciplinaMinistradaVO other = (DocenteDisciplinaMinistradaVO) obj;
-		if(this.docente == other.getDocente() && this.disciplina == other.getDisciplina()){
-			return true;
-		}
-		return false;
+		DisciplinaVO other = (DisciplinaVO) obj;
+		return this.disciplina.getId() == other.getId();
 	}
 
+	public int getAno() {
+		return ano;
+	}
+
+	public void setAno(int ano) {
+		this.ano = ano;
+	}
+
+	public int getSemestre() {
+		return semestre;
+	}
+
+	public void setSemestre(int semestre) {
+		this.semestre = semestre;
+	}
 }

@@ -13,9 +13,9 @@
         <property name="hibernate.hbm2ddl.auto">update</property>
         <property name="hibernate.connection.autocommit">true</property>
         <property name="hibernate.show_sql">true</property>
-        <mapping class="vo.CursoVO"/>
         <mapping class="vo.DisciplinaVO"/>
         <mapping class="vo.DocenteVO"/>
+        <mapping class="vo.CursoVO"/>
         <mapping class="vo.DocenteDisciplinaInteresseVO"/>
         <mapping class="vo.DocenteDisciplinaMinistradaVO"/>
     </session-factory>

@@ -18,22 +18,18 @@
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
-            <version>2.5</version>
         </dependency>
         <dependency>
             <groupId>com.sun.faces</groupId>
             <artifactId>jsf-api</artifactId>
-            <version>2.2.12</version>
         </dependency>
         <dependency>
             <groupId>com.sun.faces</groupId>
             <artifactId>jsf-impl</artifactId>
-            <version>2.2.12</version>
         </dependency>
         <dependency>
             <groupId>jstl</groupId>
             <artifactId>jstl</artifactId>
-            <version>1.2</version>
         </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
@@ -114,4 +110,28 @@
     </build>
 
     <url>maven.apache.org</url>
+    <dependencyManagement>
+    	<dependencies>
+    		<dependency>
+    			<groupId>javax.servlet</groupId>
+    			<artifactId>servlet-api</artifactId>
+    			<version>2.5</version>
+    		</dependency>
+    		<dependency>
+    			<groupId>com.sun.faces</groupId>
+    			<artifactId>jsf-api</artifactId>
+    			<version>2.2.12</version>
+    		</dependency>
+    		<dependency>
+    			<groupId>com.sun.faces</groupId>
+    			<artifactId>jsf-impl</artifactId>
+    			<version>2.2.12</version>
+    		</dependency>
+    		<dependency>
+    			<groupId>jstl</groupId>
+    			<artifactId>jstl</artifactId>
+    			<version>1.2</version>
+    		</dependency>
+    	</dependencies>
+    </dependencyManagement>
 </project>

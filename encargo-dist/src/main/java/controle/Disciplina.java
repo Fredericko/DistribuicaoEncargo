@@ -19,7 +19,7 @@ public class Disciplina {
 	private DisciplinaVO disciplinaNova = new DisciplinaVO();
 	private static DataModel<DisciplinaVO> disciplinas;
 	
-	public void update(DisciplinaVO vo) {
+	public void save(DisciplinaVO vo) {
 		DisciplinaDAO.getInstance().save(vo);
 		PickListDisciplinaArray.setDisciplina();
 	}
@@ -34,7 +34,7 @@ public class Disciplina {
 	}
 	
 	public void addDisciplina(){
-		update(disciplinaNova);
+		save(disciplinaNova);
 		disciplinaNova = new DisciplinaVO();
 	}
 	
@@ -60,6 +60,10 @@ public class Disciplina {
 
 	public void setDisciplinaNova(DisciplinaVO disciplinaNova) {
 		this.disciplinaNova = disciplinaNova;
+	}
+	
+	public void update(DisciplinaVO vo){
+		DisciplinaDAO.getInstance().update(vo);
 	}
 	
 }

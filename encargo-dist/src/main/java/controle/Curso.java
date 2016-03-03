@@ -3,29 +3,31 @@ package controle;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.RequestScoped;
 import javax.faces.model.ArrayDataModel;
 import javax.faces.model.DataModel;
 
-import dao.CursoDAO;
-import javax.annotation.PostConstruct;
 import org.primefaces.model.DualListModel;
+
+import dao.CursoDAO;
+import util.PickListDisciplinaArray;
 import vo.CursoVO;
 import vo.DisciplinaVO;
 
 @ManagedBean
-@SessionScoped
+@RequestScoped
 public class Curso {
 
     private CursoVO cursoNovo = new CursoVO();
-    private Disciplina disc = new Disciplina();
     private static DataModel<CursoVO> cursos;
     private DualListModel<DisciplinaVO> model;
     
     @PostConstruct
     public void init(){
-        model = new DualListModel<DisciplinaVO>(disc.getAll(), cursoNovo.getDisciplinas());
+    	PickListDisciplinaArray.setDisciplina();
+        model = new DualListModel<DisciplinaVO>(PickListDisciplinaArray.getDisciplinas(), cursoNovo.getDisciplinas());
     }
     
     public DualListModel<DisciplinaVO> getModel() {
@@ -36,8 +38,12 @@ public class Curso {
         this.model = model;
     }
     
-    public static void update(CursoVO vo) {
+    public static void save(CursoVO vo) {
         CursoDAO.getInstance().save(vo);
+    }
+    
+    public static void update(CursoVO vo){
+    	CursoDAO.getInstance().update(vo);
     }
 
     public void delete(CursoVO vo) {
@@ -63,8 +69,7 @@ public class Curso {
     public void addCursoNovo() {
         if (!cursoNovo.getNome().isEmpty()||!cursoNovo.getDuracao().isEmpty()) {
             cursoNovo.setDisciplinas(model.getTarget());
-            update(cursoNovo);
-            model.setSource(disc.getAll());
+            save(cursoNovo);
             cursoNovo.clear();
         }
     }

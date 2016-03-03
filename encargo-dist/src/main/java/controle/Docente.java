@@ -5,45 +5,34 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.RequestScoped;
 import javax.faces.model.ArrayDataModel;
 
 import org.primefaces.model.DualListModel;
 
-import dao.DisciplinaMinistradaDAO;
 import dao.DocenteDAO;
-import negocio.Selecao;
+import util.DocentesModel;
 import util.PickListDisciplinaArray;
 import vo.DisciplinaVO;
+import vo.DocenteDisciplinaInteresseVO;
 import vo.DocenteVO;
 
 @ManagedBean
-@SessionScoped
+@RequestScoped
 public class Docente {
 
 	private DocenteVO docenteNovo = new DocenteVO();
-	private ArrayDataModel<DocenteVO> docentes;
 	private DualListModel<DisciplinaVO> model;
-	//private ArrayList<DisciplinaVO> disciplinaArrayList;
-	private ArrayList<DocenteVO> docenteArrayList;
+	private List<DisciplinaVO> disciplinasInteresse = new ArrayList<DisciplinaVO>();
 
 	@PostConstruct
 	public void init() {
 		PickListDisciplinaArray.setDisciplina();
-		setModel(new DualListModel<DisciplinaVO>(PickListDisciplinaArray.getDisciplinas(), docenteNovo.getDisciplinasInteresse()));
+		setModel(new DualListModel<DisciplinaVO>(PickListDisciplinaArray.getDisciplinas(), getDisciplinasInteresseDocenteNovo()));
 	}
 
 	public static void saveOrUpdate(DocenteVO vo) {
 		DocenteDAO.getInstance().saveOrUpdate(vo);
-		//DisciplinaInteresseDAO.getInstance().saveOrUpdate((HashSet<DocenteDisciplinaInteresseVO>)vo.getDocenteDisciplinasInteresse());
-	}
-
-	public static void saveOrUpdate(ArrayList<DocenteVO> docentes) {
-		for (DocenteVO vo : docentes) {
-			DocenteDAO.getInstance().save(vo);
-			vo.toDocenteDisciplinasMinistrada();
-			DisciplinaMinistradaDAO.getInstance().saveOrUpdate(vo.getDocenteDisciplinasMinistradas());
-		}
 	}
 
 	public void delete(DocenteVO vo) {
@@ -55,27 +44,11 @@ public class Docente {
 	}
 
 	public void addDocente() {
-		docenteNovo.setDisciplinasInteresse(getModel().getTarget());
+		setDisciplinasInteresse(docenteNovo, model.getTarget());
 		saveOrUpdate(docenteNovo);
 		docenteNovo = new DocenteVO();
 	}
-
-	public ArrayDataModel<DocenteVO> getDocentes() {
-		docenteArrayList = new ArrayList<DocenteVO>(getAll());
-		DocenteVO[] disciplinaArray = new DocenteVO[docenteArrayList.size()];
-		int i = 0;
-		for (DocenteVO dos : docenteArrayList) {
-			disciplinaArray[i] = dos;
-			i++;
-		}
-		docentes = new ArrayDataModel<DocenteVO>(disciplinaArray);
-		return docentes;
-	}
-
-	public void setDocentes(ArrayDataModel<DocenteVO> docentes) {
-		this.docentes = docentes;
-	}
-
+	
 	public DocenteVO getDocenteNovo() {
 		return docenteNovo;
 	}
@@ -84,35 +57,36 @@ public class Docente {
 		this.docenteNovo = docenteNovo;
 	}
 
-	private ArrayDataModel<DocenteVO> docentesModel;
-
 	public ArrayDataModel<DocenteVO> getDocentesModel() {
-		docenteArrayList = new ArrayList<DocenteVO>(Docente.getAll());
-		DocenteVO[] disciplinaArray = new DocenteVO[docenteArrayList.size()];
-		int i = 0;
-		for (DocenteVO dos : docenteArrayList) {
-			disciplinaArray[i] = dos;
-			i++;
-		}
-		docentesModel = new ArrayDataModel<DocenteVO>(disciplinaArray);
-		return docentesModel;
+		return DocentesModel.getDocentesModel();
 	}
 
 	public void setDocentesModel(ArrayDataModel<DocenteVO> docentesModel) {
-		this.docentesModel = docentesModel;
+		DocentesModel.setDocentesModel(docentesModel);
 	}
-	
+
 	public DualListModel<DisciplinaVO> getModel() {
 		return model;
 	}
-	
+
 	public void setModel(DualListModel<DisciplinaVO> model) {
 		this.model = model;
 	}
 
-	public void selecionar() {
-		Selecao sel = new Selecao();
-		sel.selecionarDisciplinas(docenteArrayList);
-		saveOrUpdate(docenteArrayList);
+	public List<DisciplinaVO> getDisciplinasInteresseDocenteNovo() {
+		return disciplinasInteresse;
 	}
+
+	public void setDisciplinasInteresse(DocenteVO docente, List<DisciplinaVO> disciplinas) {
+		int i = 0;
+		for (DisciplinaVO disc : disciplinas) {
+			DocenteDisciplinaInteresseVO docDisc = new DocenteDisciplinaInteresseVO();
+			docDisc.setOrdem(i);
+			docDisc.setDocente(docente);
+			docDisc.setDisciplina(disc);
+			docente.addDocenteDisciplinaInteresse(docDisc);
+			i++;
+		}
+	}
+
 }

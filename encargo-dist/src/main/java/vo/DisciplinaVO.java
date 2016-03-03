@@ -2,6 +2,7 @@ package vo;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -13,6 +14,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.OrderBy;
+
+import enums.Areas;
 
 @Entity
 @Table(name = "disciplina")
@@ -30,13 +33,14 @@ public class DisciplinaVO {
 	@Column(name = "ch_semanal")
 	private int chSemanal;
 	private String ementa;
+	private boolean disponivel;
+	private Areas area;
 	@OneToMany(mappedBy = "disciplina", cascade = CascadeType.ALL, orphanRemoval = true)
 	@OrderBy(clause = "ordem")
-	private Set<DocenteDisciplinaInteresseVO> docenteDisciplinaInteresse = new HashSet<DocenteDisciplinaInteresseVO>();
+	private Set<DocenteDisciplinaInteresseVO> docenteDisciplinaInteresse = new TreeSet<DocenteDisciplinaInteresseVO>();
 	@OneToMany(mappedBy = "disciplina", cascade = CascadeType.ALL, orphanRemoval = true)
-	@OrderBy(clause = "ordem")
 	private Set<DocenteDisciplinaMinistradaVO> docenteDisciplinaMinistrada = new HashSet<DocenteDisciplinaMinistradaVO>();
-
+	
 	public int getId() {
 		return id;
 	}
@@ -91,6 +95,22 @@ public class DisciplinaVO {
 
 	public void setEmenta(String ementa) {
 		this.ementa = ementa;
+	}
+
+	public boolean isDisponivel() {
+		return disponivel;
+	}
+
+	public void setDisponivel(boolean disponivel) {
+		this.disponivel = disponivel;
+	}
+
+	public Areas getArea() {
+		return area;
+	}
+
+	public void setArea(Areas area) {
+		this.area = area;
 	}
 
 	@Override

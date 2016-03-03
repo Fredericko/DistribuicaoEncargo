@@ -9,14 +9,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "curso")
-public class CursoVO  {
+public class CursoVO {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String codigo;
 	private String nome;
@@ -24,6 +25,8 @@ public class CursoVO  {
 	@ManyToMany
 	@JoinColumn(name = "disciplina_id")
 	private List<DisciplinaVO> disciplinas;
+	@OneToOne
+	private DocenteVO coordenador;
 
 	public CursoVO() {
 		nome = "";
@@ -70,6 +73,14 @@ public class CursoVO  {
 
 	public void setDisciplinas(List<DisciplinaVO> disciplinas) {
 		this.disciplinas = disciplinas;
+	}
+
+	public DocenteVO getCoordenador() {
+		return coordenador;
+	}
+
+	public void setCoordenador(DocenteVO coordenador) {
+		this.coordenador = coordenador;
 	}
 
 	public void clear() {

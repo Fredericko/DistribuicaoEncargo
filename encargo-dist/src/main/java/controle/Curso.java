@@ -8,13 +8,16 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.model.ArrayDataModel;
 import javax.faces.model.DataModel;
+import javax.faces.model.SelectItem;
 
 import org.primefaces.model.DualListModel;
 
 import dao.CursoDAO;
+import dao.DocenteDAO;
 import util.PickListDisciplinaArray;
 import vo.CursoVO;
 import vo.DisciplinaVO;
+import vo.DocenteVO;
 
 @ManagedBean
 @RequestScoped
@@ -23,7 +26,7 @@ public class Curso {
     private CursoVO cursoNovo = new CursoVO();
     private static DataModel<CursoVO> cursos;
     private DualListModel<DisciplinaVO> model;
-    
+    private List<SelectItem> listaSelect;
     @PostConstruct
     public void init(){
     	PickListDisciplinaArray.setDisciplina();
@@ -82,4 +85,12 @@ public class Curso {
         this.cursoNovo = cursoNovo;
     }
 
+    public List<SelectItem> getAllDocenteSelectItem(){
+    	listaSelect = new ArrayList<>();
+    	for(DocenteVO vo : DocenteDAO.getInstance().getAll()){
+    		listaSelect.add(new SelectItem(vo, vo.getNome()));
+    	}
+    	return listaSelect;
+    }
+    
 }

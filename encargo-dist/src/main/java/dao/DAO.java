@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Order;
 
 import util.HibernateUtil;
 
@@ -71,7 +72,7 @@ public class DAO<VO> {
 	public VO getById(int id) {
 		return s.get(classe, id);
 	}
-	
+
 	public List<VO> getAll() {
 		return (List<VO>) s.createCriteria(classe).list();
 	}

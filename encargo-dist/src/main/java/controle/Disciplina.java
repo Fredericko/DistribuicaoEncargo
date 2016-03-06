@@ -8,6 +8,8 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.model.ArrayDataModel;
 import javax.faces.model.DataModel;
 
+import org.primefaces.event.RowEditEvent;
+
 import dao.DisciplinaDAO;
 import util.PickListDisciplinaArray;
 import vo.DisciplinaVO;
@@ -65,5 +67,13 @@ public class Disciplina {
 	public void update(DisciplinaVO vo){
 		DisciplinaDAO.getInstance().update(vo);
 	}
+
+	public static List<DisciplinaVO> getDisponiveis() {
+		return DisciplinaDAO.getInstance().getDisciplinasDisponiveis();
+	}
+	
+	public void onRowEdit(RowEditEvent event) {
+		update((DisciplinaVO) event.getObject());
+    }
 	
 }

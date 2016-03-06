@@ -10,11 +10,13 @@ import javax.faces.model.ArrayDataModel;
 
 import org.primefaces.model.DualListModel;
 
+import dao.DisciplinaMinistradaDAO;
 import dao.DocenteDAO;
 import util.DocentesModel;
 import util.PickListDisciplinaArray;
 import vo.DisciplinaVO;
 import vo.DocenteDisciplinaInteresseVO;
+import vo.DocenteDisciplinaMinistradaVO;
 import vo.DocenteVO;
 
 @ManagedBean
@@ -24,7 +26,8 @@ public class Docente {
 	private DocenteVO docenteNovo = new DocenteVO();
 	private DualListModel<DisciplinaVO> model;
 	private List<DisciplinaVO> disciplinasInteresse = new ArrayList<DisciplinaVO>();
-
+	private List<DocenteDisciplinaMinistradaVO> docentesMinistradas;
+	
 	@PostConstruct
 	public void init() {
 		PickListDisciplinaArray.setDisciplina();
@@ -42,7 +45,7 @@ public class Docente {
 	public static List<DocenteVO> getAll() {
 		return DocenteDAO.getInstance().getAll();
 	}
-
+	
 	public void addDocente() {
 		setDisciplinasInteresse(docenteNovo, model.getTarget());
 		saveOrUpdate(docenteNovo);
@@ -89,4 +92,8 @@ public class Docente {
 		}
 	}
 
+	public List<DocenteDisciplinaMinistradaVO> gettDocentesMinistradas(int docenteId) {
+		this.docentesMinistradas = DisciplinaMinistradaDAO.getInstance().getDisciplinasMinistradasMaisRecente(docenteId);
+		return this.docentesMinistradas;
+	}
 }

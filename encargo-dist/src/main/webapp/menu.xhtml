@@ -1,0 +1,27 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<p:menubar>
+		<p:menuitem value="Cursos"   url="/adm/cursos.xhtml" />
+		<p:menuitem value="Docentes"  url="/adm/docentes.xhtml" />
+		<p:menuitem value="Disciplinas"   url="/adm/disciplinas.xhtml" />
+		<p:menuitem value="Seleção"   url="/adm/selecao.xhtml" />
+		<p:menuitem value="Histórico"  url="/adm/historico.xhtml" />
+		<p:menuitem value="Perfil" url="/usuario/perfil.xhtml" />
+		<p:menuitem>
+			<h:outputLabel rendered="#{credenciais.user ne null}"
+				value="#{credenciais.user.nome}" />
+		</p:menuitem>
+		<p:menuitem value="Sair" action="#{credenciais.deslogar}" />
+	</p:menubar>
+</ui:composition>
+
+<!-- 
+rendered="#{credenciais.user.cargo eq 'CHEFE_DEPARTAMENTO'}"  
+rendered="#{credenciais.user.cargo eq 'COORDENADOR' or credenciais.user.cargo eq 'CHEFE_DEPARTAMENTO'}" 
+rendered="#{credenciais.user.cargo eq 'COORDENADOR' or credenciais.user.cargo eq 'CHEFE_DEPARTAMENTO'}"
+rendered="#{credenciais.user.cargo eq 'COORDENADOR' or credenciais.user.cargo eq 'CHEFE_DEPARTAMENTO'}"
+rendered="#{credenciais.user.cargo eq 'COORDENADOR' or credenciais.user.cargo eq 'CHEFE_DEPARTAMENTO'}"
+-->

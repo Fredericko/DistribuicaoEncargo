@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Disciplinas</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</h:head>
+<h:body>
+	<p:layout fullPage="true">
+		<p:layoutUnit position="north" size="100">
+			<h:form>
+				<ui:include src="../menu.xhtml" />
+			</h:form>
+		</p:layoutUnit>
+		<p:layoutUnit position="west">
+			<h:form>
+				<h:outputText id="codigoNovoLabel" value="Código" />
+				<br />
+				<h:inputText id="codigoNovo"
+					value="#{disciplina.disciplinaNova.codigo}"></h:inputText>
+				<br />
+				<h:outputLabel value="Nome da Disciplina" />
+				<br />
+				<h:inputText id="nomeDisciplina"
+					value="#{disciplina.disciplinaNova.nomeDisciplina}"></h:inputText>
+				<br />
+				<h:outputLabel value="Turno" />
+				<br />
+				<h:inputText id="turno" value="#{disciplina.disciplinaNova.turno}"></h:inputText>
+				<br />
+				<h:outputLabel value="Carga Horária Semanal" />
+				<br />
+				<h:inputText id="chSemanal"
+					value="#{disciplina.disciplinaNova.chSemanal}"></h:inputText>
+				<br />
+				<h:outputLabel value="Carga Horária Total" />
+				<br />
+				<h:inputText id="chTotal"
+					value="#{disciplina.disciplinaNova.chTotal}"></h:inputText>
+				<br />
+				<h:outputLabel value="Ementa" />
+				<br />
+				<h:inputTextarea id="ementa"
+					value="#{disciplina.disciplinaNova.ementa}"></h:inputTextarea>
+				<h:commandButton value="Adicionar"
+					action="#{disciplina.addDisciplina()}"></h:commandButton>
+			</h:form>
+		</p:layoutUnit>
+		<p:layoutUnit position="center">
+			<h:form>
+				<p:dataTable id="disciplinas" value="#{disciplina.disciplinas}"
+					var="disc" editable="true"
+					emptyMessage="Nenhum registro encontrado">
+					<p:ajax event="rowEdit" listener="#{disciplina.onRowEdit}" />
+					<p:column headerText="Nome da disciplina">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputLabel value="#{disc.nomeDisciplina}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{disc.nomeDisciplina}" style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<p:column headerText="Turno">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputLabel value="#{disc.turno}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{disc.turno}" style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<p:column headerText="Carga Horaria Semanal">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputLabel value="#{disc.chSemanal}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{disc.chSemanal}" style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<p:column headerText="Carga Horaria Total">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputLabel value="#{disc.chTotal}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{disc.chTotal}" style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<p:column headerText="Disponivel">
+						<p:cellEditor>
+							<f:facet name="output">
+								<p:selectBooleanCheckbox value="#{disc.disponivel}"
+									disabled="true" />
+							</f:facet>
+							<f:facet name="input">
+								<p:selectBooleanCheckbox value="#{disc.disponivel}"
+									style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<p:column headerText="Ementa">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputLabel value="#{disc.ementa}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{disc.ementa}" style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<p:column>
+						<p:rowEditor />
+						<p:commandLink action="#{disciplina.delete(disc)}"
+							update="disciplinas">
+							<span class="ui-icon ui-icon-trash" />
+						</p:commandLink>
+					</p:column>
+				</p:dataTable>
+				<br />
+
+				<p:dataTable id="disciplinasNaoEscolhidas"
+					value="#{historico.getModelNaoSelecionada()}" var="disc"
+					editable="true" emptyMessage="Nenhum registro encontrado">
+					<f:facet name="header">
+        				Disciplinas não escolhidas para o semestre #{historico.getSemestreAtual()}
+    				</f:facet>
+					<p:column headerText="Nome da disciplina">
+						<h:outputLabel value="#{disc.nomeDisciplina}" />
+					</p:column>
+					<p:column headerText="Turno">
+						<h:outputLabel value="#{disc.turno}" />
+					</p:column>
+					<p:column headerText="Carga Horaria Semanal">
+						<h:outputLabel value="#{disc.chSemanal}" />
+					</p:column>
+					<p:column headerText="Carga Horaria Total">
+						<h:outputLabel value="#{disc.chTotal}" />
+					</p:column>
+					<p:column headerText="Disponivel">
+						<p:selectBooleanCheckbox value="#{disc.disponivel}"
+							disabled="true" />
+					</p:column>
+					<p:column headerText="Ementa">
+						<h:outputLabel value="#{disc.ementa}" />
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</p:layoutUnit>
+	</p:layout>
+</h:body>
+</html>

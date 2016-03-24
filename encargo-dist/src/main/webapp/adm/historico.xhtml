@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<f:view contentType="text/html">
+	<h:head>
+		<f:facet name="first">
+			<meta content='text/html; charset=UTF-8' http-equiv="Content-Type" />
+			<title>Histórico</title>
+		</f:facet>
+	</h:head>
+	<h:body>
+		<p:layout style="border: 0px;" fullPage="true">
+			<p:layoutUnit style="border-bottom: 1px; border-style: solid; "
+				position="north" size="100">
+				<h:form>
+					<ui:include src="../menu.xhtml" />
+				</h:form>
+			</p:layoutUnit>
+			<p:layoutUnit style="border: 0px;" position="center">
+				<p:dataTable id="docDiscMin" value="#{historico.model}"
+					var="docDisc" emptyMessage="Nenhum registro encontrado">
+					<p:column headerText="Id"><h:outputLabel value="#{docDisc.id}"/></p:column>
+					<p:column headerText="ano/semestre"><h:outputLabel value="#{docDisc.ano}/#{docDisc.semestre}"/></p:column>
+					<p:column headerText="Disciplina"><h:outputLabel value="#{docDisc.disciplina.nomeDisciplina}"/></p:column>
+					<p:column headerText="Nome"><h:outputLabel value="#{docDisc.docente.nome}"/></p:column>
+				</p:dataTable>
+			</p:layoutUnit>
+		</p:layout>
+	</h:body>
+</f:view>
+</html>

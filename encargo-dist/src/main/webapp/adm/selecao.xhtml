@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<f:view contentType="text/html">
+	<h:head>
+		<f:facet name="first">
+			<meta content='text/html; charset=UTF-8' http-equiv="Content-Type" />
+			<title>Seleção</title>
+		</f:facet>
+	</h:head>
+	<h:body>
+		<p:layout fullPage="true">
+			<p:layoutUnit position="north" size="100">
+				<h:form>
+					<ui:include src="../menu.xhtml" />
+				</h:form>
+			</p:layoutUnit>
+			<p:layoutUnit position="west" size="400">
+				<h:form>
+					<h:outputLabel value="Ano" />
+					<br />
+					<h:inputText value="#{seleciona.ano}" />
+					<br />
+					<h:outputLabel value="Semestre" />
+					<br />
+					<h:inputText value="#{seleciona.semestre}" />
+					<br />
+					<h:commandButton value="Seleciona" action="#{seleciona.selecionar}"></h:commandButton>
+				</h:form>
+			</p:layoutUnit>
+			<p:layoutUnit position="center">
+				<h:form>
+					<p:dataTable id="docentes" value="#{seleciona.docentesModel}"
+						var="doc" editable="true"
+						emptyMessage="Nenhum registro encontrado">
+						<p:column headerText="Id">
+							<h:outputLabel value="#{doc.id}" />
+						</p:column>
+						<p:column headerText="Nome">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputLabel value="#{doc.nome}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{doc.nome}" style="width:100%" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+						<p:column headerText="Regime de Trabalho">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputLabel value="#{doc.regimeTrabalho}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{doc.regimeTrabalho}" style="width:100%" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+						<p:column headerText="Natureza do Contrato">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputLabel value="#{doc.contratoNatureza}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{doc.contratoNatureza}" style="width:100%" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+						<p:column headerText="Data de encerramento do contrato">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputLabel value="#{doc.contratoEncerramento}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{doc.contratoEncerramento}"
+										style="width:100%" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+						<p:column headerText="Disciplinas de Interesse">
+							<p:dataList value="#{doc.docenteDisciplinasInteresse}" var="disc"
+								type="ordered">
+						        		#{disc.disciplina.nomeDisciplina}
+   							 	</p:dataList>
+						</p:column>
+						<p:column headerText="Disciplinas Ministradas">
+							<p:dataList value="#{seleciona.gettDocentesMinistradas(doc.id)}"
+								var="disc" type="ordered">
+						        		#{disc.disciplina.nomeDisciplina}
+   							 	</p:dataList>
+						</p:column>
+						<p:column>
+							<p:rowEditor />
+						</p:column>
+					</p:dataTable>
+				</h:form>
+			</p:layoutUnit>
+		</p:layout>
+	</h:body>
+</f:view>
+</html>

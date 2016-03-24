@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<f:view contentType="text/html">
+	<h:head>
+		<f:facet name="first">
+			<meta content='text/html; charset=UTF-8' http-equiv="Content-Type" />
+			<title>Docente</title>
+		</f:facet>
+	</h:head>
+	<h:body>
+		<p:layout style="border: 0px;" fullPage="true">
+			<p:layoutUnit style="border-bottom: 1px; border-style: solid; "
+				position="north" size="100">
+				<h:form>
+					<ui:include src="../menu.xhtml" />
+				</h:form>
+			</p:layoutUnit>
+			<p:layoutUnit style="border: 0px;" position="center" size="500">
+				<h:form>
+					<h:outputLabel value="Nome" />
+					<br />
+					<h:inputText id="nome" value="#{credenciais.user.nome}"></h:inputText>
+					<br />
+					<br />
+					<h:outputLabel value="Sobrenome" />
+					<br />
+					<h:inputText id="sobrenome" value="#{credenciais.user.sobrenome}"></h:inputText>
+					<br />
+					<h:selectBooleanCheckbox value="#{editarDocente.trocaSenha}">Trocar Senha</h:selectBooleanCheckbox>
+					<br />
+					<h:outputLabel value="Nova Senha" />
+					<br />
+					<h:inputSecret id="senha"
+						value="#{editarDocente.senha}" />
+					<br />
+					<h:outputLabel value="Confirmar Senha" />
+					<br />
+					<h:inputSecret id="confirmasenha"
+						value="#{editarDocente.confirmaSenha}" />
+					<br />
+					<h:outputLabel value="Regime do Trabalho" />
+					<br />
+					<h:outputLabel value="#{credenciais.user.regimeTrabalho} horas" />
+					<br />
+					<br />
+					<h:outputLabel value="Natureza do Contrato" />
+					<br />
+					<h:outputLabel value="#{credenciais.user.contratoNatureza}" />
+					<br />
+					<br />
+					<h:outputLabel
+						rendered="#{credenciais.user.contratoEncerramento ne null}"
+						value="Data de Encerramento do contrato" />
+					<br />
+					<p:outputLabel
+						rendered="#{credenciais.user.contratoEncerramento ne null}"
+						value="#{credenciais.user.contratoEncerramento}" />
+					<br />
+					<h:commandButton value="Salvar" action="#{editarDocente.saveOrUpdate()}" /><br/>
+					<h:outputLabel value="Disciplinas de Interesse" />
+					<p:pickList value="#{editarDocente.model}" var="di"
+						itemLabel="#{di.nomeDisciplina}" itemValue="#{di}"
+						converter="PickListConverter" />
+					<p:dataList></p:dataList>
+					<p:dataList value="#{editarDocente.gettDocentesMinistradas(credenciais.user.id)}" var="disc">
+						<f:facet name="header">
+          	  					Disciplinas de Ministrada
+       					 </f:facet>
+       					#{disc.disciplina.codigo} - #{disc.disciplina.nomeDisciplina}
+   					 </p:dataList>
+					<br />
+				</h:form>
+			</p:layoutUnit>
+		</p:layout>
+	</h:body>
+</f:view>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta charset="ISO-8859-1" />
+	<title>Login</title>
+	<link rel="stylesheet"
+		href="css/cadastro.css" />
+	<!--[if lt IE 9]>
+		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+</h:head>
+<h:body>
+	<div id="login">
+		<h2>
+			<span class="fontawesome-lock"></span>Sign In
+		</h2>
+		<h:form action="javascript:void(0);" method="POST">
+			<fieldset>
+				<h:outputLabel for="email">Email</h:outputLabel>
+				<p>
+					<h:inputText id="email" value=""></h:inputText>
+				</p>
+				<h:outputLabel for="password">Senha</h:outputLabel>
+				<p>
+					<h:inputSecret id="password" value=""></h:inputSecret>
+				</p>
+				<p>
+					<input type="submit" value="Sign In"/>
+				</p>
+			</fieldset>
+		</h:form>
+	</div>
+</h:body>
+</html>

@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.criterion.Order;
 
 import util.HibernateUtil;
 
@@ -25,48 +24,48 @@ public class DAO<VO> {
 	
 	public void update(VO vo){
 		t = s.beginTransaction();
+		s.clear();
 		s.update(vo);
 		t.commit();
-		s.clear();
 	}
 
 	public void save(VO vo) {
 		t = s.beginTransaction();
+		s.clear();
 		s.merge(vo);
 		t.commit();
-		s.clear();
 	}
 
 	public void saveOrUpdate(VO vo) {
 		t = s.beginTransaction();
+		s.clear();
 		s.saveOrUpdate(vo);
 		t.commit();
-		s.clear();
 	}
 
 	public void save(List<VO> listaVo) {
 		t = s.beginTransaction();
+		s.clear();
 		for (VO vo : listaVo) {
 			s.saveOrUpdate(vo);
 		}
 		t.commit();
-		s.clear();
 	}
 
 	public void delete(VO vo) {
 		t = s.beginTransaction();
+		s.clear();
 		s.delete(vo);
 		t.commit();
-		s.clear();
 	}
 
 	public void delete(List<VO> listaVo) {
 		t = s.beginTransaction();
+		s.clear();
 		for (VO vo : listaVo) {
 			s.delete(vo);
 		}
 		t.commit();
-		s.clear();
 	}
 
 	public VO getById(int id) {
@@ -74,7 +73,8 @@ public class DAO<VO> {
 	}
 
 	public List<VO> getAll() {
-		return (List<VO>) s.createCriteria(classe).list();
+		List<VO> lista = (List<VO>) s.createCriteria(classe).list();
+		return lista;
 	}
 
 }

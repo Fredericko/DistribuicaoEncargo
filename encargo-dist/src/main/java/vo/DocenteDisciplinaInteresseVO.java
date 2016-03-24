@@ -10,8 +10,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "docente_disciplina_interesse", uniqueConstraints = @UniqueConstraint(columnNames = { "docente_id",
-		"disciplina_id" }) )
+@Table(name = "docente_disciplina_interesse")
 public class DocenteDisciplinaInteresseVO implements Comparable<DocenteDisciplinaInteresseVO> {
 
 	@Id
@@ -31,6 +30,12 @@ public class DocenteDisciplinaInteresseVO implements Comparable<DocenteDisciplin
 	public DocenteDisciplinaInteresseVO(DocenteVO docente, DisciplinaVO disciplina) {
 		this.docente = docente;
 		this.disciplina = disciplina;
+	}
+
+	public DocenteDisciplinaInteresseVO(DocenteVO docente, DisciplinaVO disciplina, int ordem) {
+		this.docente = docente;
+		this.disciplina = disciplina;
+		this.ordem = ordem;
 	}
 
 	public int getId() {
@@ -64,7 +69,12 @@ public class DocenteDisciplinaInteresseVO implements Comparable<DocenteDisciplin
 	public void setDisciplina(DisciplinaVO disciplina) {
 		this.disciplina = disciplina;
 	}
-
+	
+	@Override
+	public boolean equals(Object obj) {
+		return (((DocenteDisciplinaInteresseVO)obj).getDocente().equals(this.getDocente())&& ((DocenteDisciplinaInteresseVO)obj).getDisciplina().equals(this.getDisciplina()));
+	}
+	
 	@Override
 	public int compareTo(DocenteDisciplinaInteresseVO o) {
 		return this.ordem - o.ordem;

@@ -1,10 +1,12 @@
 package controle;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.model.ArrayDataModel;
 import javax.faces.model.DataModel;
 
@@ -74,6 +76,11 @@ public class Disciplina {
 	
 	public void onRowEdit(RowEditEvent event) {
 		update((DisciplinaVO) event.getObject());
+		try {
+			FacesContext.getCurrentInstance().getExternalContext().redirect("");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
 	
 }

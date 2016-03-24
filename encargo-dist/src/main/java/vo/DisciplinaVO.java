@@ -41,6 +41,10 @@ public class DisciplinaVO {
 	@OneToMany(mappedBy = "disciplina", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<DocenteDisciplinaMinistradaVO> docenteDisciplinaMinistrada = new HashSet<DocenteDisciplinaMinistradaVO>();
 	
+	public DisciplinaVO() {
+		disponivel = true;
+	}
+	
 	public int getId() {
 		return id;
 	}

@@ -15,6 +15,7 @@ import org.primefaces.event.RowEditEvent;
 import org.primefaces.model.DualListModel;
 
 import dao.CursoDAO;
+import dao.DisciplinaInteresseDAO;
 import dao.DocenteDAO;
 import enums.Cargos;
 import util.PickListDisciplinaArray;
@@ -110,6 +111,10 @@ public class Curso {
 		return listaSelect;
 	}
 
+	public List<DisciplinaVO> getDisciplinas(int id){
+		return CursoDAO.getInstance().getDisciplinasPorCursoId(id);
+	}
+	
 	public void onRowEdit(RowEditEvent event) {
 		update((CursoVO) event.getObject());
 		try {

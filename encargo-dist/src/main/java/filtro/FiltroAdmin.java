@@ -1,4 +1,4 @@
-package Filtro;
+package filtro;
 
 import java.io.IOException;
 
@@ -16,8 +16,8 @@ import javax.servlet.http.HttpSession;
 import enums.Cargos;
 import vo.DocenteVO;
 
-@WebFilter("/adm/*")
-public class FiltroNivelAcesso implements Filter{
+@WebFilter(filterName="FiltroAdmin")
+public class FiltroAdmin implements Filter{
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
@@ -35,14 +35,16 @@ public class FiltroNivelAcesso implements Filter{
 		}else{
 			redireciona("perfil.xhtml", response);
 		}*/
-		
-		if (usuario != null && usuario.getCargo() != null && (usuario.getCargo().equals(Cargos.COORDENADOR) || usuario.getCargo().equals(Cargos.CHEFE_DEPARTAMENTO))) {
+		if(usuario == null){ redireciona("login.xhtml", response); return;}
+		if (usuario.getCargo() != null && (usuario.getCargo().equals(Cargos.COORDENADOR) || usuario.getCargo().equals(Cargos.CHEFE_DEPARTAMENTO))) {
 			if(req.getRequestURI().endsWith("cursos.xhtml") && !usuario.getCargo().equals(Cargos.CHEFE_DEPARTAMENTO)){
 				redireciona("usuario/perfil.xhtml", response);
+				return;
 			}
 			chain.doFilter(request, response);
 		} else {
 			redireciona("usuario/perfil.xhtml", response);
+			return;
 		}
 	}
 

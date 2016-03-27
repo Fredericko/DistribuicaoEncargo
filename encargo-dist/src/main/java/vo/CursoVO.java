@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,7 +23,7 @@ public class CursoVO {
 	private String codigo;
 	private String nome;
 	private String duracao;
-	@ManyToMany
+	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinColumn(name = "disciplina_id")
 	private List<DisciplinaVO> disciplinas;
 	@OneToOne

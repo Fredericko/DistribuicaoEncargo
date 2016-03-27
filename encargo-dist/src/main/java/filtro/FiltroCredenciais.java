@@ -1,4 +1,4 @@
-package Filtro;
+package filtro;
 
 import java.io.IOException;
 
@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 
 import vo.DocenteVO;
 
-@WebFilter("/*")
+@WebFilter(filterName="FiltroCredenciais")
 public class FiltroCredenciais implements Filter {
 
 	@Override
